@@ -5,41 +5,74 @@
 
 
 
-void vPeriodicTask(void *pvParameters)
+void Led1Task(void *pvParameters)
 {
-	//*****************************************************************************
-//
-// Blink the on-board LED.
-//
-//*****************************************************************************
 	// Establish the task's period.
 	const TickType_t xDelay = pdMS_TO_TICKS(100);
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 
-	//
-	// Loop forever.
-	//
 	while(1)
 	{
-		//
-		// Turn on the LED.
-		//
-		GPION->DATA |= 0x03;
-		GPIOF_AHB->DATA |= (1 << 4) | (1 << 0);
+		GPION->DATA |= 0x01;
 
-		//
-		// Delay for a bit.
-		//
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		//
-		// Turn off the LED.
-		//
-		GPION->DATA &= ~(0x03);
-		GPIOF_AHB->DATA &= ~((1 << 4) | (1 << 0));
 
-		//
-		// Delay for a bit.
-		//
+		GPION->DATA &= ~(0x01);
+		
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+	}
+}
+
+void Led2Task(void *pvParameters)
+{
+	// Establish the task's period.
+	const TickType_t xDelay = pdMS_TO_TICKS(200);
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+	while(1)
+	{
+		GPION->DATA |= 0x02;
+
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+
+		GPION->DATA &= ~(0x02);
+
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+	}
+}
+
+void Led3Task(void *pvParameters)
+{
+	// Establish the task's period.
+	const TickType_t xDelay = pdMS_TO_TICKS(400);
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+	
+	while(1)
+	{
+		GPIOF_AHB->DATA |= (1 << 4);
+
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+
+		GPIOF_AHB->DATA &= ~((1 << 4));
+
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+	}
+}
+
+void Led4Task(void *pvParameters)
+{
+	// Establish the task's period.
+	const TickType_t xDelay = pdMS_TO_TICKS(800);
+	TickType_t xLastWakeTime = xTaskGetTickCount();
+
+	while(1)
+	{
+		GPIOF_AHB->DATA |= (1 << 0);
+
+		vTaskDelayUntil(&xLastWakeTime, xDelay);
+
+		GPIOF_AHB->DATA &= ~((1 << 0));
+
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 	}
 }
@@ -66,12 +99,41 @@ int main()
 	//
 	GPIOF_AHB->DIR = (1 << 4) | (1 << 0);
 	GPIOF_AHB->DEN = (1 << 4) | (1 << 0);
-	GPION->DATA |= 0x03;
-	xTaskCreate(vPeriodicTask, "My Task", 256, NULL, 1, NULL);
 
+	BaseType_t return_task;
+
+	return_task = xTaskCreate(Led1Task, "LED 1", 256, NULL, 1, NULL);
+	if(return_task == pdPASS)
+	{
+		GPION->DATA |= 0x01;
+	}
+	
+	return_task = xTaskCreate(Led2Task, "LED 2", 256, NULL, 1, NULL);
+	if(return_task == pdPASS)
+	{
+		GPION->DATA |= 0x02;
+	}
+	
+	
+	return_task = xTaskCreate(Led3Task, "LED 3", 256, NULL, 1, NULL);
+	if(return_task == pdPASS)
+	{
+		GPION->DATA |= (1 << 0);
+	}
+	
+	return_task = xTaskCreate(Led4Task, "LED 4", 256, NULL, 1, NULL);
+	if(return_task == pdPASS)
+	{
+		GPION->DATA |= (1 << 4);
+	}
+	
+
+	//GPION->DATA &= ~0x03;
+	//GPIOF_AHB->DATA &= ~((1 << 4)| (1 << 0));
 	// Startup of the FreeRTOS scheduler.  The program should block here.  
 	vTaskStartScheduler();
-	
+	GPION->DATA |= 0x03;
+	GPIOF_AHB->DATA |= (1 << 4)| (1 << 0);
 	// The following line should never be reached.  Failure to allocate enough
 	//	memory from the heap would be one reason.
 	for (;;);
