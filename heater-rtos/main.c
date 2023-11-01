@@ -104,7 +104,6 @@ int main()
 		LED_TurnOn(LED2);
 	}
 	
-	
 	return_task = xTaskCreate(Led3Task, "LED 3", 256, NULL, 1, NULL);
 	if(return_task == pdPASS)
 	{

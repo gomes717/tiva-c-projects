@@ -17,14 +17,9 @@ const LED leds[4] = {
 
 void LED_init(const uint8_t id)
 {
-    if(id>1)
-    {
-        SET_BIT(SYSCTL->RCGCGPIO, 5);
-    }
-    else
-    {
-        SET_BIT(SYSCTL->RCGCGPIO, 12);
-    }
+    uint32_t port = (uint32_t)leds[id].port;
+    uint32_t indice_gpio = ((port - GPIOA_AHB_BASE) >> 12);
+    SET_BIT(SYSCTL->RCGCGPIO, indice_gpio);
     SET_BIT(leds[id].port->DIR, leds[id].pos_port);
     SET_BIT(leds[id].port->DEN, leds[id].pos_port);
 }
