@@ -13,11 +13,11 @@ void Led1Task(void *pvParameters)
 
 	while(1)
 	{
-		GPION->DATA |= 0x01;
+		GPION->DATA |= 0x02;
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 
-		GPION->DATA &= ~(0x01);
+		GPION->DATA &= ~(0x02);
 		
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 	}
@@ -31,11 +31,11 @@ void Led2Task(void *pvParameters)
 
 	while(1)
 	{
-		GPION->DATA |= 0x02;
+		GPION->DATA |= 0x01;
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 
-		GPION->DATA &= ~(0x02);
+		GPION->DATA &= ~(0x01);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 	}
