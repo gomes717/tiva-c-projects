@@ -394,6 +394,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\LED.c</FilePath>
             </File>
+            <File>
+              <FileName>UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\UART.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
