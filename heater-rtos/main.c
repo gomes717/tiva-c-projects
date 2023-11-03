@@ -91,7 +91,7 @@ int main()
 	LED_init(LED2);
 	LED_init(LED3);
 	LED_init(LED4);
-	UART_init(0, 115200, 0);
+	UART_init(0, 115200, MODE_8 | MODE_O | MODE_S2);
 
 	BaseType_t return_task;
 

@@ -20,10 +20,10 @@ void UART_init(const uint8_t id, const uint32_t baud, const uint8_t mode)
     uint16_t fbrd = ((16000000%(16*baud))*64)/(16*baud);
     SET_BIT(SYSCTL->RCGCUART, 0);
 	while(!GET_BIT(SYSCTL->PRUART, 0));
-	SET_BIT(UART0->CTL, 0);
+	RESET_BIT(UART0->CTL, 0);
 	UART0->FBRD = fbrd;
 	UART0->IBRD = ibrd;
-	UART0->LCRH |= (3<<5);             //1 stop bit, sem paridade, 8-bits data, sem FIFO
+	UART0->LCRH = mode;
 	UART0->CC &= ~(15<<0);			 //zerar os 4 bits para pegar o clock do sistema
 	UART0->CTL |= (1<<0);
 	SYSCTL->RCGCGPIO |= (1<<0);
