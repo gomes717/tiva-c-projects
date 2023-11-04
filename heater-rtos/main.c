@@ -88,7 +88,7 @@ void Led4Task(void *pvParameters)
 
 int main()
 {
-	PLL_init(120000000, MOSCSRC);
+	PLL_init(80000000, MOSCSRC);
 	LED_init(LED1);
 	LED_init(LED2);
 	LED_init(LED3);
