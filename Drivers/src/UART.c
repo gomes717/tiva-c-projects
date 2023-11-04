@@ -16,8 +16,8 @@ void UART_init(const uint8_t id, const uint32_t baud, const uint8_t mode)
 {
     //FIXME: hardcoded for clock 16MHz and cfg 16 div
     //FIXME: Configuring only UART0
-    uint16_t ibrd = 16000000/(16*baud);
-    uint16_t fbrd = ((16000000%(16*baud))*64)/(16*baud);
+    uint16_t ibrd = 120000000/(16*baud);
+    uint16_t fbrd = ((120000000%(16*baud))*64)/(16*baud);
     SET_BIT(SYSCTL->RCGCUART, 0);
 	while(!GET_BIT(SYSCTL->PRUART, 0));
 	RESET_BIT(UART0->CTL, 0);

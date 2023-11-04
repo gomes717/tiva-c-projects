@@ -4,6 +4,7 @@
 #include "TM4C129.h"                    // Device header
 #include "LED.h"
 #include "UART.h"
+#include "PLL.h"
 
 
 void Led1Task(void *pvParameters)
@@ -79,7 +80,7 @@ void Led4Task(void *pvParameters)
 		LED_TurnOff(LED4);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		UART_send(0, (uint8_t*)"Teste\n", 7);
+		UART_send(0, (uint8_t*)"\n\rTeste\n\r", 7);
 	}
 }
 
@@ -87,11 +88,12 @@ void Led4Task(void *pvParameters)
 
 int main()
 {
+	PLL_init(120000000, MOSCSRC);
 	LED_init(LED1);
 	LED_init(LED2);
 	LED_init(LED3);
 	LED_init(LED4);
-	UART_init(0, 115200, MODE_8 | MODE_O | MODE_S2);
+	UART_init(0, 115200, MODE_8);
 
 	BaseType_t return_task;
 

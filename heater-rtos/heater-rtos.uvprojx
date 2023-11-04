@@ -399,6 +399,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\UART.c</FilePath>
             </File>
+            <File>
+              <FileName>PLL.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\PLL.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
