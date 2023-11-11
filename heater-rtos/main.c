@@ -42,6 +42,7 @@ void Led2Task(void *pvParameters)
 		LED_TurnOff(LED2);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
+		UART_send(4, (uint8_t*)"\n\rUART4\n\r", 10);
 	}
 }
 
@@ -94,6 +95,7 @@ int main()
 	LED_init(LED3);
 	LED_init(LED4);
 	UART_init(0, 115200, MODE_8);
+	UART_init(4, 115200, MODE_8);
 
 	BaseType_t return_task;
 
