@@ -404,6 +404,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\PLL.c</FilePath>
             </File>
+            <File>
+              <FileName>GPIO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\GPIO.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
