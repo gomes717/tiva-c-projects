@@ -414,6 +414,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\SPI.c</FilePath>
             </File>
+            <File>
+              <FileName>MAX7219.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\MAX7219.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

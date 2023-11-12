@@ -6,6 +6,18 @@
 #include "UART.h"
 #include "PLL.h"
 #include "SPI.h"
+#include "MAX7219.h"
+
+const uint8_t image[64] = {
+							0, 0, 1, 1, 1, 1, 0, 0,
+							0, 1, 0, 0, 0, 0, 1, 0,
+							1, 0, 1, 0, 0, 1, 0, 1,
+							1, 0, 0, 0, 0, 0, 0, 1,
+							1, 0, 1, 0, 0, 1, 0, 1,
+							1, 0, 0, 1, 1, 0, 0, 1,
+							0, 1, 0, 0, 0, 0, 1, 0,
+							0, 0, 1, 1, 1, 1, 0, 0
+};
 
 
 void Led1Task(void *pvParameters)
@@ -24,8 +36,6 @@ void Led1Task(void *pvParameters)
 		LED_TurnOff(LED1);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		uint16_t data[9] = {0xFFFF, 1, 2, 3, 4, 5, 6, 7, 8};
-		SPI_send(SPI_0, data, sizeof(data)/sizeof(uint16_t));
 	}
 }
 
@@ -99,7 +109,8 @@ int main()
 	LED_init(LED4);
 	UART_init(UART_0, 115200, MODE_8);
 	UART_init(UART_4, 115200, MODE_8);
-	SPI_init(SPI_0,MASTER_MODE, 10000000);
+	MAX7219_init(SPI_0);
+	MAX7219_draw(SPI_0, image);
 
 	BaseType_t return_task;
 

@@ -19,8 +19,6 @@ typedef enum
     SPI_MODE
 } GPIO_mode;
 
-#define HIGH 1
-#define LOW 0
 
 void GPIO_init(GPIOA_AHB_Type* port, uint32_t pin);
 void GPIO_config(GPIO_t gpio);
