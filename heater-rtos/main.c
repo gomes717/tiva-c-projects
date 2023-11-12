@@ -5,6 +5,7 @@
 #include "LED.h"
 #include "UART.h"
 #include "PLL.h"
+#include "SPI.h"
 
 
 void Led1Task(void *pvParameters)
@@ -23,6 +24,8 @@ void Led1Task(void *pvParameters)
 		LED_TurnOff(LED1);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
+		uint16_t data[9] = {0xFFFF, 1, 2, 3, 4, 5, 6, 7, 8};
+		SPI_send(SPI_0, data, sizeof(data)/sizeof(uint16_t));
 	}
 }
 
@@ -42,7 +45,7 @@ void Led2Task(void *pvParameters)
 		LED_TurnOff(LED2);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		UART_send(4, (uint8_t*)"\n\rUART4\n\r", 10);
+		UART_send(UART_4, (uint8_t*)"\n\rUART4\n\r", 10);
 	}
 }
 
@@ -81,7 +84,7 @@ void Led4Task(void *pvParameters)
 		LED_TurnOff(LED4);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		UART_send(0, (uint8_t*)"\n\rTeste\n\r", 7);
+		UART_send(UART_0, (uint8_t*)"\n\rTeste\n\r", 7);
 	}
 }
 
@@ -94,8 +97,9 @@ int main()
 	LED_init(LED2);
 	LED_init(LED3);
 	LED_init(LED4);
-	UART_init(0, 115200, MODE_8);
-	UART_init(4, 115200, MODE_8);
+	UART_init(UART_0, 115200, MODE_8);
+	UART_init(UART_4, 115200, MODE_8);
+	SPI_init(SPI_0,MASTER_MODE, 10000000);
 
 	BaseType_t return_task;
 
