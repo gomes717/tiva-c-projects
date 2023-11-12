@@ -2,14 +2,14 @@
 #define __UART_H__
 #include <stdint.h>
 
-// #define UART0 0
-// #define UART1 1
-// #define UART2 2
-// #define UART3 3
-// #define UART4 4
-// #define UART5 5
-// #define UART6 6
-// #define UART7 7
+#define UART_0 0
+#define UART_1 1
+#define UART_2 2
+#define UART_3 3
+#define UART_4 4
+#define UART_5 5
+#define UART_6 6
+#define UART_7 7
 
 #define MODE_8  (0x3<<5)
 #define MODE_7  (0x2<<5)

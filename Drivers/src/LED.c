@@ -18,7 +18,7 @@ const LED leds[4] = {
 
 void LED_init(const uint8_t id)
 {
-    GPIO_init(leds[id].port, leds[id].pos_port, OUTPUT);
+    GPIO_init(leds[id].port, leds[id].pos_port);
     SET_BIT(leds[id].port->DIR, leds[id].pos_port);
     SET_BIT(leds[id].port->DEN, leds[id].pos_port);
 }

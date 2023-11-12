@@ -46,13 +46,13 @@ void UART_init(const uint8_t id, const uint32_t baud, const uint8_t mode)
 	uarts[id].uart->CC &= ~(15<<0);
 	SET_BIT(uarts[id].uart->CTL, 0);
 
-	GPIO_init(uarts[id].rx_port, uarts[0].rx_pin_port, UART_MODE);
+	GPIO_init(uarts[id].rx_port, uarts[0].rx_pin_port);
 	SET_BIT(uarts[id].rx_port->AMSEL, uarts[id].rx_pin_port);
 	SET_BIT(uarts[id].rx_port->PCTL, uarts[id].rx_pin_port*4);
 	SET_BIT(uarts[id].rx_port->AFSEL, uarts[id].rx_pin_port);
 	SET_BIT(uarts[id].rx_port->DEN, uarts[id].rx_pin_port);
 
-	GPIO_init(uarts[id].tx_port, uarts[0].tx_pin_port, UART_MODE);
+	GPIO_init(uarts[id].tx_port, uarts[0].tx_pin_port);
 	SET_BIT(uarts[id].tx_port->AMSEL, uarts[id].tx_pin_port);
 	SET_BIT(uarts[id].tx_port->PCTL, uarts[id].tx_pin_port*4);
 	SET_BIT(uarts[id].tx_port->AFSEL, uarts[id].tx_pin_port);
