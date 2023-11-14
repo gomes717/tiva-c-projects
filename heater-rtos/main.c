@@ -7,6 +7,7 @@
 #include "PLL.h"
 #include "SPI.h"
 #include "MAX7219.h"
+#include "I2C.h"
 
 const uint8_t image[64] = {
 							0, 0, 1, 1, 1, 1, 0, 0,
@@ -15,6 +16,17 @@ const uint8_t image[64] = {
 							1, 0, 0, 0, 0, 0, 0, 1,
 							1, 0, 1, 0, 0, 1, 0, 1,
 							1, 0, 0, 1, 1, 0, 0, 1,
+							0, 1, 0, 0, 0, 0, 1, 0,
+							0, 0, 1, 1, 1, 1, 0, 0
+};
+
+const uint8_t image2[64] = {
+							0, 0, 1, 1, 1, 1, 0, 0,
+							0, 1, 0, 0, 0, 0, 1, 0,
+							1, 0, 1, 0, 0, 1, 0, 1,
+							1, 0, 0, 0, 0, 0, 0, 1,
+							1, 0, 0, 0, 0, 0, 0, 1,
+							1, 0, 1, 1, 1, 1, 0, 1,
 							0, 1, 0, 0, 0, 0, 1, 0,
 							0, 0, 1, 1, 1, 1, 0, 0
 };
@@ -29,13 +41,25 @@ void Led1Task(void *pvParameters)
 
 	while(1)
 	{
-		LED_TurnOn(LED1);
+		//LED_TurnOn(LED1);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 
-		LED_TurnOff(LED1);
+		//LED_TurnOff(LED1);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
+		UART_send(UART_0, (uint8_t*)"Read X: ", 9);
+		uint8_t reg = 0x44;
+		uint8_t data = 0;
+		I2C_send(I2C_0, 0x68, &reg, 1);
+		I2C_receive(I2C_0, 0x68, &data);
+		uint16_t gyro_x = data;
+		reg = 0x45;
+		I2C_send(I2C_0, 0x68, &reg, 1);
+		I2C_receive(I2C_0, 0x68, &data);
+		gyro_x |= (data << 8);
+		UART_send(UART_0, (uint8_t*)&gyro_x, 2);
+		UART_send(UART_0, (uint8_t*)"\n\r", 3);
 	}
 }
 
@@ -68,11 +92,11 @@ void Led3Task(void *pvParameters)
 
 	while(1)
 	{
-		LED_TurnOn(LED3);
+		//LED_TurnOn(LED3);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 
-		LED_TurnOff(LED3);
+		//LED_TurnOff(LED3);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 	}
@@ -82,19 +106,18 @@ void Led4Task(void *pvParameters)
 {
 	(void)pvParameters;
 	// Establish the task's period.
-	const TickType_t xDelay = pdMS_TO_TICKS(800);
+	const TickType_t xDelay = pdMS_TO_TICKS(1500);
 	TickType_t xLastWakeTime = xTaskGetTickCount();
 
 	while(1)
 	{
-		LED_TurnOn(LED4);
+		//LED_TurnOn(LED4);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
 
-		LED_TurnOff(LED4);
+		//LED_TurnOff(LED4);
 
 		vTaskDelayUntil(&xLastWakeTime, xDelay);
-		UART_send(UART_0, (uint8_t*)"\n\rTeste\n\r", 7);
 	}
 }
 
@@ -109,8 +132,7 @@ int main()
 	LED_init(LED4);
 	UART_init(UART_0, 115200, MODE_8);
 	UART_init(UART_4, 115200, MODE_8);
-	MAX7219_init(SPI_0);
-	MAX7219_draw(SPI_0, image);
+	I2C_init(I2C_0, FAST_MODE, I2C_MASTER_MODE);
 
 	BaseType_t return_task;
 

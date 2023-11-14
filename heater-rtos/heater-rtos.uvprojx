@@ -419,6 +419,11 @@
               <FileType>1</FileType>
               <FilePath>..\Drivers\src\MAX7219.c</FilePath>
             </File>
+            <File>
+              <FileName>I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Drivers\src\I2C.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
